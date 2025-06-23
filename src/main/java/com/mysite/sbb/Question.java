@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -29,7 +30,7 @@ public class Question {
 	private String content;
 
 	// creatDate -> Table mapping시 creat_date로 이름이 변경
-	private String cteateDate;
+	private LocalDateTime cteateDate;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answerList;

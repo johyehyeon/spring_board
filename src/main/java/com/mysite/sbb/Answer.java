@@ -1,5 +1,7 @@
 package com.mysite.sbb;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +25,7 @@ public class Answer {
 	private String content;
 
 	// creatDate -> Table mapping시 creat_date로 이름이 변경
-	private String cteateDate;
+	private LocalDateTime cteateDate;
 
 	@ManyToOne
 	private Question question;
