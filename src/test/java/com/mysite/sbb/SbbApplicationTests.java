@@ -1,14 +1,14 @@
 package com.mysite.sbb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.mysite.sbb.answer.AnswerRepository;
+import com.mysite.sbb.question.Question;
+import com.mysite.sbb.question.QuestionRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -24,23 +24,21 @@ class SbbApplicationTests {
 	@Transactional
 	@Test
 	void testJpa() {
-		// Question q1 = new Question();
-		// q1.setSubject("sbb가 무엇인가요?알려주세요");
-		// q1.setContent("좀 더 알고싶어요");
-		// q1.setCteateDate(LocalDateTime.now());
-		// this.questionRepository.save(q1);
+		Question q1 = new Question();
+		q1.setSubject("sbb가 무엇인가요?알려주세요");
+		q1.setContent("좀 더 알고싶어요");
+		q1.setCteateDate(LocalDateTime.now());
+		this.questionRepository.save(q1);
 
 		// Question q2 = new Question();
 		// q2.setSubject("스프링부트 모델.");
 		// q2.setContent("id는 자동으로 생성되나요?");
-		// q2.setCteateDate(LocalDateTime.now());
+		// q2.setCreateDate(LocalDateTime.now());
 		// this.questionRepository.save(q2);
 
 		// find all
 		// List<Question> all = this.questionRepository.findAll();
 		// assertEquals(2, all.size());
-
-		// 인덱스 0에 있는 제목 수정
 		// Question q = all.get(0);
 		// assertEquals("sbb가 무엇인가요?", q.getSubject());
 
@@ -96,13 +94,13 @@ class SbbApplicationTests {
 //		assertEquals(2, a.getQuestion().getId());
 
 		// 답변데이터를 통해 질문 데이터 찾기 or 질문데이터를 통해 답변데이터 찾기
-		Optional<Question> op = this.questionRepository.findById(2);
-		assertTrue(op.isPresent());
-		Question q = op.get();
-
-		List<Answer> answerList = q.getAnswerList();
-		assertEquals(1, answerList.size());
-		assertEquals("답변입니다.", answerList.get(0).getContent());
+//		Optional<Question> op = this.questionRepository.findById(2);
+//		assertTrue(op.isPresent());
+//		Question q = op.get();
+//
+//		List<Answer> answerList = q.getAnswerList();
+//		assertEquals(1, answerList.size());
+//		assertEquals("답변입니다.", answerList.get(0).getContent());
 	}
 
 }

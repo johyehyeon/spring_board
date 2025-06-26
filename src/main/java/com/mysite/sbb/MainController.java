@@ -14,4 +14,8 @@ public class MainController {
 		return "sbb 프로젝트 시작"; // 템플릿파일
 	}
 
+	@GetMapping("/")
+	public String root() {
+		return "redirect:/question/list";
+	}
 }
