@@ -1,0 +1,9 @@
+textarea {
+	width: 98%;
+
+}
+
+/*버튼의 모양*/
+input[type=submit] {
+	margin-top: 10px;
+}

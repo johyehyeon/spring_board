@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ public class QuestionController {
 
 	private final QuestionService questionService;
 
+//	@GetMapping("/question/list") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping
 	@GetMapping("/list")
 //	@ResponseBody <- 주석이유 : url mapping을 통해서 메서드를 가지고 템플릿과 연결하기때문
 	public String list(Model model) {
@@ -41,4 +44,15 @@ public class QuestionController {
 
 	}
 
+	@GetMapping("/create") // 질문 작성 화면 보여주기
+	public String questionCreate() {
+		return "question_form";
+	}
+
+	@PostMapping("/create") // 질문 작성 처리
+	public String questionCreate2(@RequestParam("subject") String subject, @RequestParam("content") String content) {
+		// 입력 후 service에서 저장하는 메서드 만들기
+		this.questionService.create(subject, content);
+		return "redirect:/question/list";
+	}
 }

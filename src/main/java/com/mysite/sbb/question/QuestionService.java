@@ -1,5 +1,6 @@
 package com.mysite.sbb.question;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +16,9 @@ public class QuestionService {
 
 	public List<Question> getlist() {
 		return this.qeQuestionRepository.findAll();
-
 	}
 
 	public Question getQuestion(Integer id) {
-
 		// 브라우저에 없는 id값을 입력할경우 예외처리
 		// Optional : null 처리를 안전하게 할수있도록 도와주는 class
 		Optional<Question> question = this.qeQuestionRepository.findById(id);
@@ -28,7 +27,14 @@ public class QuestionService {
 		} else {
 			throw new DatanotFoundException("qusetion not found");
 		}
+	}
 
+	public void create(String subject, String content) {
+		Question q = new Question();
+		q.setSubject(subject);
+		q.setContent(content);
+		q.setCreateDate(LocalDateTime.now());
+		this.qeQuestionRepository.save(q);
 	}
 
 }

@@ -1,16 +1,12 @@
 package com.mysite.sbb;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mysite.sbb.answer.AnswerRepository;
-import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
-
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -24,23 +20,23 @@ class SbbApplicationTests {
 	@Transactional
 	@Test
 	void testJpa() {
-		Question q1 = new Question();
-		q1.setSubject("sbb가 무엇인가요?알려주세요");
-		q1.setContent("좀 더 알고싶어요");
-		q1.setCteateDate(LocalDateTime.now());
-		this.questionRepository.save(q1);
+//		Question q1 = new Question();
+//		q1.setSubject("sbb가 무엇인가요?알려주세요");
+//		q1.setContent("좀 더 알고싶어요");
+//		q1.setCreateDate(LocalDateTime.now());
+//		this.questionRepository.save(q1);
 
-		// Question q2 = new Question();
-		// q2.setSubject("스프링부트 모델.");
-		// q2.setContent("id는 자동으로 생성되나요?");
-		// q2.setCreateDate(LocalDateTime.now());
-		// this.questionRepository.save(q2);
+//		Question q2 = new Question();
+//		q2.setSubject("스프링부트 모델.");
+//		q2.setContent("id는 자동으로 생성되나요?");
+//		q2.setCreateDate(LocalDateTime.now());
+//		this.questionRepository.save(q2);
 
-		// find all
-		// List<Question> all = this.questionRepository.findAll();
-		// assertEquals(2, all.size());
-		// Question q = all.get(0);
-		// assertEquals("sbb가 무엇인가요?", q.getSubject());
+//		// find all
+//		List<Question> all = this.questionRepository.findAll();
+//		assertEquals(2, all.size());
+//		Question q = all.get(0);
+//		assertEquals("sbb가 무엇인가요?알려주세요", q.getSubject());
 
 		// finByID()
 		// Optional<Question> op = this.questionRepository.findById(1);
@@ -79,13 +75,16 @@ class SbbApplicationTests {
 //		assertEquals(1, this.questionRepository.count());
 
 //		// 답변데이터 저장 1 : 질문글 가져오기
-//		 Optional<Question> op = this.questionRepository.findById(2);
-//		 assertTrue(op.isPresent()); Question q = op.get(); 
-//		 // 답변데이터 저장 2 : 답변데이터 저장 
-//		 Answer a = new Answer(); a.setContent("답변입니다."); a.setQuestion(q); // 어떤 질문의
-//		//답변인지 알기위해 Question 객체가 필요함 
-//		 a.setCteateDate(LocalDateTime.now());
-//		 this.answerRepository.save(a);
+//		Optional<Question> op = this.questionRepository.findById(2);
+//		assertTrue(op.isPresent());
+//		Question q = op.get();
+//		// 답변데이터 저장 2 : 답변데이터 저장
+//		Answer a = new Answer();
+//		a.setContent("답변입니다.");
+//		a.setQuestion(q); // 어떤 질문의
+//		// 답변인지 알기위해 Question 객체가 필요함
+//		a.setCreateDate(LocalDateTime.now());
+//		this.answerRepository.save(a);
 
 //		// 답변데이터 조회하기 finByID()
 //		Optional<Answer> oa = this.answerRepository.findById(1);

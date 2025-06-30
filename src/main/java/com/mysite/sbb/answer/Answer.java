@@ -27,7 +27,7 @@ public class Answer {
 	private String content;
 
 	// creatDate -> Table mapping시 creat_date로 이름이 변경
-	private LocalDateTime cteateDate;
+	private LocalDateTime createDate;
 
 	@ManyToOne
 	private Question question;
