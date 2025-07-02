@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
-<title>질문등록</title>
+
 </head>
 <body>
 	<div layout:fragment="content" class="container">
@@ -11,7 +11,7 @@
 		<form th:action="@{/question/create}" th:object="${questionForm}"
 			method="post">
 			
-			<div th:replace="~{form_errors :: formErrorsFragment"></div>
+			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 			
 			<div class="alert alert-danger" role="alert"
 				th:if="${#fields.hasAnyErrors()}">

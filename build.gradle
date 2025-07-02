@@ -38,6 +38,9 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	//validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// secutity - 인증과 권환관련해서
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 }
 
 tasks.named('test') {

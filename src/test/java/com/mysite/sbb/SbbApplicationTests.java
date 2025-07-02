@@ -3,10 +3,10 @@ package com.mysite.sbb;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -17,7 +17,10 @@ class SbbApplicationTests {
 	@Autowired
 	private AnswerRepository answerRepository;
 
-	@Transactional
+	@Autowired
+	private QuestionService questionService;
+
+//	@Transactional
 	@Test
 	void testJpa() {
 //		Question q1 = new Question();
@@ -100,6 +103,14 @@ class SbbApplicationTests {
 //		List<Answer> answerList = q.getAnswerList();
 //		assertEquals(1, answerList.size());
 //		assertEquals("답변입니다.", answerList.get(0).getContent());
+
+		// 테스트 데이터 300개 생성
+		for (int i = 1; i <= 300; i++) {
+			String subject = String.format("테스트데이터입니다.:[%03d]", i);
+			String content = "내용무";
+			this.questionService.create(subject, content);
+		}
+
 	}
 
 }

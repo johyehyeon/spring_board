@@ -1,7 +1,6 @@
 package com.mysite.sbb.question;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.sbb.answer.AnswerForm;
 
@@ -26,16 +26,21 @@ public class QuestionController {
 
 	private final QuestionService questionService;
 
-//	@GetMapping("/question/list") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping
+////	@GetMapping("/question/list") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping
+//	@GetMapping("/list")
+////	@ResponseBody <- 주석이유 : url mapping을 통해서 메서드를 가지고 템플릿과 연결하기때문
+////	public String list(Model model) {
+////      List<Question> questionList = this.questionRepository.findAll(); // db에서 list로 가져와라
+//		List<Question> questionList = this.questionService.getlist();
+//		model.addAttribute("questionList", questionList); // db에서 읽어온 정보를 메소드로 인해 모델로 넘김
+//		return "question_list"; // question_list.html을 찾아서 브라우져 랜더링
+//	}
+	// list에서 page로 바뀌면서 수정
 	@GetMapping("/list")
-//	@ResponseBody <- 주석이유 : url mapping을 통해서 메서드를 가지고 템플릿과 연결하기때문
-	public String list(Model model) {
-// 1    List<Question> questionList = this.questionRepository.findAll(); // db에서 list로 가져와라
-		List<Question> questionList = this.questionService.getlist();
-		model.addAttribute("questionList", questionList); // db에서 읽어온 정보를 메소드로 인해 모델로 넘김
-
-		return "question_list"; // question_list.html을 찾아서 브라우져 랜더링
-
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+		Page<Question> paging = this.questionService.getList(page);
+		model.addAttribute("paging", paging);
+		return "question_list";
 	}
 
 //  @GetMapping(value = "/question/detail/{id}") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping

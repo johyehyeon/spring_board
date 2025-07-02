@@ -2,22 +2,32 @@
 <!doctype html>
 <html lang="ko">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-    
-    <!-- sbb CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    
-    <title>Hello, sbb!</title>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+
+<!-- sbb CSS -->
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+
+<title>Hello, sbb!</title>
 </head>
 <body>
-    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-    <!-- block사이 내용이 자식템플릿 안에 사용이 되어야한다 -->
-    <th:block layout:fragment="content"></th:block>
-    <!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+	<!-- 공통 네비게이션 -->
+	<nav th:replace="~{navbar :: navbarFragment}"></nav>
+
+	<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+	<!-- block사이 내용이 자식템플릿 안에 사용이 되어야한다 -->
+	<th:block layout:fragment="content"></th:block>
+	<!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+
+	<!-- Bootstrap JS (with Popper) -->
+	<script th:src="@{/bootstrap.bundle.min.js}"></script>
+
 </body>
 </html>
