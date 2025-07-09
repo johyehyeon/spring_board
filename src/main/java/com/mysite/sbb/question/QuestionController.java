@@ -1,6 +1,9 @@
 package com.mysite.sbb.question;
 
+import java.security.Principal;
+
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.sbb.answer.AnswerForm;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +30,7 @@ public class QuestionController {
 	// 의존성 주입(DI) : 객체간의 의존성을 넣어준다?
 
 	private final QuestionService questionService;
+	private final UserService userService;
 
 ////	@GetMapping("/question/list") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping
 //	@GetMapping("/list")
@@ -43,7 +49,7 @@ public class QuestionController {
 		return "question_list";
 	}
 
-//  @GetMapping(value = "/question/detail/{id}") -> URL 프리픽스로 주석후 수정 클래스위에 @RequestMapping
+	@PreAuthorize("isAuthenticated()") // 강제로 로그인페이지로 보냄
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 		Question question = this.questionService.getQuestion(id);
@@ -52,17 +58,19 @@ public class QuestionController {
 
 	}
 
+	@PreAuthorize("isAuthenticated()") // 강제로 로그인페이지로 보냄
 	@GetMapping("/create") // 질문 작성 화면 보여주기
-	public String questionCreate(QuestionForm questionForm) {
+	public String questionCreate(QuestionForm questionForm, Principal principal) {
 		return "question_form";
 	}
 
 	@PostMapping("/create") // 질문 작성 처리
-	public String questionCreate2(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+	public String questionCreate2(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
 		if (bindingResult.hasErrors()) {
 			return "question_form";
 		}
-		this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
 		return "redirect:/question/list";
 	}
 

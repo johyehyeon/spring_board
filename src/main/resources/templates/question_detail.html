@@ -6,7 +6,7 @@
 
 </head>
 <body>
-	
+
 	<div layout:fragment="content" class="container my-3">
 
 		<!-- 질문 -->
@@ -18,6 +18,12 @@
 					th:text="${question.content}"></div>
 				<div class="d-flex justify-content-end">
 					<div class="badge bg-light text-dark p-2 text-start">
+						<!-- 글쓴이 -->
+						<div class="mb-2">
+						<span th:if="${question.author != null}"
+							th:text="${question.author.username}"></span></td>
+						</div>
+							
 						<div
 							th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
 					</div>
@@ -37,6 +43,13 @@
 					th:text="${answer.content}"></div>
 				<div class="d-flex justify-content-end">
 					<div class="badge bg-light text-dark p-2 text-start">
+
+						<!-- 답글쓴이 -->
+						<div class="mb-2">
+						<span th:if="${question.author != null}"
+							th:text="${question.author.username}"></span></td>
+						</div>
+					
 						<div
 							th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
 					</div>
@@ -53,8 +66,20 @@
 			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 
 			<!-- 답변 입력 필드 -->
-			<textarea th:field="*{content}" name="content" id="content" rows="10"
-				class="form-control"></textarea>
+
+			<!--<textarea th:field="*{content}" name="content" id="content" rows="10"
+				class="form-control"></textarea> -->
+
+			<!-- 로그인이 됐을때와 안됐을때 답변입력의 차이를 둠 -->
+			<textarea sec:authorize="isAnonymous()" disabled
+				th:field="*{content}" class="form-control" rows="10"></textarea>
+			<textarea sec:authorize="isAuthenticated()" th:field="*{content}"
+				class="form-control" rows="10"></textarea>
+			<!-- 
+			* sec:authorize="isAnonymous()"는 현재 로그아웃 상태임을 의미하고
+			* sec:authorize="isAuthenticated()"는 현재 로그인 상태임을 의미
+			 -->
+
 			<input type="submit" value="답변등록" class="btn btn-primary my-2">
 		</form>
 	</div>

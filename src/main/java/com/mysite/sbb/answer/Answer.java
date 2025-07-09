@@ -3,6 +3,7 @@ package com.mysite.sbb.answer;
 import java.time.LocalDateTime;
 
 import com.mysite.sbb.question.Question;
+import com.mysite.sbb.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,9 +27,13 @@ public class Answer {
 	@Column(columnDefinition = "TEXT") // text 길이의 제한이 없음
 	private String content;
 
-	// creatDate -> Table mapping시 creat_date로 이름이 변경
 	private LocalDateTime createDate;
 
+	// 중요!
 	@ManyToOne
 	private Question question;
+
+	@ManyToOne
+	private SiteUser author;
+
 }
