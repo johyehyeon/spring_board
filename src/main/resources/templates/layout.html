@@ -13,7 +13,7 @@
 <!-- sbb CSS -->
 <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 
-<title>Hello, sbb!</title>
+
 </head>
 <body>
 
@@ -28,6 +28,9 @@
 
 	<!-- Bootstrap JS (with Popper) -->
 	<script th:src="@{/bootstrap.bundle.min.js}"></script>
+	
+	<!-- 자바 스크립트 Start -->
+	<th:block layout:fragment="script"></th:block>
 
 </body>
 </html>
