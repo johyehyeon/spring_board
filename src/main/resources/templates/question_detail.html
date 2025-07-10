@@ -45,6 +45,13 @@
 		</div>
 
 		<div class="my-3">
+			<!-- 질문 추천 버튼 -->
+			<a href="javascript:void(0);"
+				class="recommend btn btn-sm btn-outline-secondary"
+				th:data-uri="@{|/question/vote/${question.id}|}"> 추천 <span
+				class="badge rounded-pill bg-success"
+				th:text="${#lists.size(question.voter)}"></span>
+			</a>
 			<!-- 글쓴이 수정버튼 -->
 			<a th:href="@{|/question/modify/${question.id}|}"
 				class="btn btn-sm btn-outline-secondary"
@@ -68,13 +75,16 @@
 			th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
 		<!-- 답변 반복 시작 -->
 		<div class="card my-3" th:each="answer : ${question.answerList}">
+
+		<a th:id="|answer_${answer.id}|"></a>
+		
 			<div class="card-body">
 
 				<div class="card-text" style="white-space: pre-line;"
 					th:text="${answer.content}"></div>
 				<div class="d-flex justify-content-end">
 
- 					<!-- 댓글수정시간 입력 -->
+					<!-- 댓글수정시간 입력 -->
 					<div th:if="${answer.modifyDate != null}"
 						class="badge bg-light text-dark p-2 text-start mx-3">
 						<div class="mb-2">modified at</div>
@@ -86,9 +96,8 @@
 
 						<!-- 답글쓴이 -->
 						<div class="mb-2">
-							<span th:if="${question.author != null}"
-								th:text="${question.author.username}"></span>
-							</td>
+							<span th:if="${answer.author != null}"
+								th:text="${answer.author.username}"></span>
 						</div>
 
 						<div
@@ -97,6 +106,14 @@
 				</div>
 
 				<div class="my-3">
+					<!-- 답변 추천 버튼 -->
+					<a href="javascript:void(0);"
+						class="recommend btn btn-sm btn-outline-secondary"
+						th:data-uri="@{|/answer/vote/${answer.id}|}"> 추천 <span
+						class="badge rounded-pill bg-success"
+						th:text="${#lists.size(answer.voter)}"></span>
+					</a>
+
 					<!-- 댓글쓴이 수정버튼 -->
 					<a th:href="@{|/answer/modify/${answer.id}|}"
 						class="btn btn-sm btn-outline-secondary"
@@ -113,7 +130,9 @@
 				</div>
 
 			</div>
+
 		</div>
+
 		<!-- 답변 반복 끝  -->
 		<!-- 답변 작성 -->
 		<form th:action="@{|/answer/create/${question.id}|}"
@@ -152,6 +171,17 @@
 			}
 		});
 	});
+	/* 삭제 관련 스크립트 */
+
+	const recommend_elements = document.getElementsByClassName("recommend");
+	Array.from(recommend_elements).forEach(function(element) {
+		element.addEventListener('click', function() {
+			if (confirm("정말로 추천하시겠습니까?")) {
+				location.href = this.dataset.uri;
+			}
+		});
+	});
+	/* 추천 관련 스크립트 */
 </script>
 
 

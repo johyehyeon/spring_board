@@ -59,4 +59,10 @@ public class AnswerService {
 		this.answerRepository.delete(answer);
 	}
 
+	// 추천하기
+	public void vote(Answer answer, SiteUser siteUser) {
+		answer.getVoter().add(siteUser);
+		this.answerRepository.save(answer);
+	}
+
 }

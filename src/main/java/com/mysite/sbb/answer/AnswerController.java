@@ -43,10 +43,14 @@ public class AnswerController {
 			model.addAttribute("question", question);
 			return "question_detail";
 		}
-		// 답변등록 될때 siteUser(ahuhor_id, 글쓴이 ID)를 저장
-		this.answerService.create(question, answerForm.getContent(), siteUser);
-		return String.format("redirect:/question/detail/%s", id);
+		// 기존 코딩(앵커추가로 변경)
+//		// 답변등록 될때 siteUser(ahuhor_id, 글쓴이 ID)를 저장
+//		this.answerService.create(question, answerForm.getContent(), siteUser);
+//		return String.format("redirect:/question/detail/%s", id);
+		Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	}
+
 //		@PostMapping("/create/{id}")
 //		public String createAnswer(Model model, @PathVariable("id") Integer id, @RequestParam("content") String content) {
 //			Question question = this.questionService.getQuestion(id);
@@ -80,7 +84,9 @@ public class AnswerController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
 		this.answerService.modify(answer, answerForm.getContent());
-		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+		// 기존 코딩(앵커추가로 변경)
+//		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	}
 
 	// 답변 삭제
@@ -94,4 +100,18 @@ public class AnswerController {
 		this.answerService.delete(answer);
 		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 	}
+
+	// 추천하기
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String answerVote(Principal principal, @PathVariable("id") Integer id) {
+		Answer answer = this.answerService.getAnswer(id);
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		// 객체 answer , siteUser 로 인자를 전달 --> Table question_voter 에 저장함
+		this.answerService.vote(answer, siteUser);
+		// 기존 코딩(앵커추가로 변경)
+//		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
+	}
+
 }
