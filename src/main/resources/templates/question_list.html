@@ -8,6 +8,26 @@
 
 <body>
 	<div layout:fragment="content" class="container my-3">
+
+		<!-- 검색창 생성 및 질문등록 상단이동 -->
+		<div class="row my-3">
+			<div class="col-6">
+				<a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+			</div>
+			<div class="col-6">
+				<div class="input-group">
+					<!-- 상단 오른쪽에 검색어를 입력할 수 있는 텍스트 창을 생성 -->
+					<input type="text" id="search_kw" class="form-control"
+						th:value="${kw}">
+					<button class="btn btn-outline-secondary" type="button"
+						id="btn_search">찾기</button>
+				</div>
+			</div>
+		</div>
+
+
+
+
 		<table class="table">
 			<thead class="table-dark">
 				<tr class="text-center">
@@ -27,17 +47,15 @@
 					<!-- <td th:text="${loop.count}"></td> -->
 
 					<!-- 제목 -->
-					<td class = "text-start"><a th:href="@{|/question/detail/${question.id}|}"
-						th:text="${question.subject}"></a> 
-						<span
+					<td class="text-start"><a
+						th:href="@{|/question/detail/${question.id}|}"
+						th:text="${question.subject}"></a> <span
 						class="text-danger small ms-2"
 						th:if="${#lists.size(question.answerList) > 0}"
-						th:text="${#lists.size(question.answerList)}"> 
-						</span>
-					</td>
+						th:text="${#lists.size(question.answerList)}"> </span></td>
 					<!-- 글쓴이 -->
-					<td class="text-center">
-						<span th:if="${question.author != null}" class="text-center"
+					<td class="text-center"><span
+						th:if="${question.author != null}" class="text-center"
 						th:text="${question.author.username}"></span></td>
 					<!-- 작성일시 -->
 					<td class="text-center"
@@ -46,7 +64,8 @@
 			</tbody>
 
 		</table>
-		<!-- 하단 페이지 번호 -->
+
+		<!-- 하단 페이징 처리 시작 -->
 		<div th:if="${!paging.isEmpty()}">
 
 			<ul class="pagination justify-content-center">
@@ -54,37 +73,72 @@
 				<!-- 맨앞 -->
 				<li class="page-item"
 					th:classappend="${paging.number == 0} ? 'disabled'"><a
-					class="page-link" th:href="@{|?page=0|}">&laquo;</a></li>
+					class="page-link" href="javascript:void(0)" th:data-page="0">&laquo;</a>
+				</li>
 
 				<!-- 이전번호 -->
 				<li class="page-item"
-					th:classappend="${!paging.hasPrevious} ? 'disabled'"><a
+					th:classappend="${!paging.hasPrevious} ? 'disabled'">
+					<!-- <a
 					class="page-link" th:href="@{|?page=${paging.number-1}|}"> <span>이전</span>
-				</a></li>
+					</a> --> <a class="page-link" href="javascript:void(0)"
+					th:data-page="${paging.number-1}"> <span>이전</span>
+				</a>
+				</li>
 
 				<!-- 페이지번호목록 (th:if > 현재페이지를 기준으로 좌우로 5개씩 표시해라-->
 				<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
 					th:if="${page >= paging.number-5 and page <= paging.number+5}"
 					th:classappend="${page == paging.number} ? 'active'"
-					class="page-item"><a th:text="${page+1}" class="page-link"
-					th:href="@{|?page=${page}|}"></a></li>
+					class="page-item">
+					<!-- <a th:text="${page+1}" class="page-link"
+					th:href="@{|?page=${page}|}"></a> --> <a class="page-link"
+					href="javascript:void(0)" th:data-page="${page}"
+					th:text="${page + 1}"></a>
+
+				</li>
 
 				<!-- 다음번호 -->
 				<li class="page-item"
 					th:classappend="${!paging.hasNext} ? 'disabled'"><a
-					class="page-link" th:href="@{|?page=${paging.number+1}|}"> <span>다음</span>
+					class="page-link" href="javascript:void(0)"
+					th:data-page="${paging.number+1}"> <span>다음</span>
 				</a></li>
 
 				<!-- 맨끝 -->
 				<li class="page-item"
 					th:classappend="${paging.number == paging.totalPages - 1} ? 'disabled'">
-					<a class="page-link" th:href="@{|?page=${paging.totalPages - 1}|}">&raquo;</a>
+					<a class="page-link" href="javascript:void(0)"
+					th:data-page="${paging.totalPages - 1}">&raquo;</a>
 				</li>
 
 			</ul>
 		</div>
+		<!-- 페이징처리 끝 -->
 
-		<a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+		<form th:action="@{/question/list}" method="get" id="searchForm">
+			<input type="hidden" id="kw" name="kw" th:value="${kw}"> <input
+				type="hidden" id="page" name="page" th:value="${paging.number}">
+		</form>
+		<!-- 버튼 상단으로 이동 <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a> -->
 	</div>
 </body>
+
+<script layout:fragment="script" type='text/javascript'>
+	const page_elements = document.getElementsByClassName("page-link");
+	Array.from(page_elements).forEach(function(element) {
+		element.addEventListener('click', function() {
+			document.getElementById('page').value = this.dataset.page;
+			document.getElementById('searchForm').submit();
+		});
+	});
+	const btn_search = document.getElementById("btn_search");
+	btn_search.addEventListener('click', function() {
+		document.getElementById('kw').value = document
+				.getElementById('search_kw').value;
+		document.getElementById('page').value = 0; // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+		document.getElementById('searchForm').submit();
+	});
+</script>
+
 </html>

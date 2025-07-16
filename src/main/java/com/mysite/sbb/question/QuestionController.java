@@ -44,12 +44,21 @@ public class QuestionController {
 //		return "question_list"; // question_list.html을 찾아서 브라우져 랜더링
 //	}
 	// list에서 page로 바뀌면서 수정
-	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Question> paging = this.questionService.getList(page);
+	@GetMapping("/list") // 검색버전으로 수정
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw) {
+		Page<Question> paging = this.questionService.getList(page, kw);
 		model.addAttribute("paging", paging);
+		// 입력한 검색어를 화면에 그대로 유지
+		model.addAttribute("kw", kw);
 		return "question_list";
 	}
+//	@GetMapping("/list")
+//	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+//	Page<Question> paging = this.questionService.getList(page);
+//	model.addAttribute("paging", paging);
+//	return "question_list";
+//}
 
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {

@@ -41,6 +41,9 @@ dependencies {
 	// secutity - 인증과 권환관련해서
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	// markdown
+	implementation 'org.commonmark:commonmark:0.21.0'
+
 }
 
 tasks.named('test') {
