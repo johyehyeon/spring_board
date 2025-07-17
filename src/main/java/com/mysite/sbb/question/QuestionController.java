@@ -1,5 +1,7 @@
 package com.mysite.sbb.question;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 
 import org.springframework.data.domain.Page;
@@ -80,7 +82,12 @@ public class QuestionController {
 			return "question_form";
 		}
 		SiteUser siteUser = this.userService.getUser(principal.getName());
-		this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
+//		this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
+
+		// 에디터 적용 작성
+		String con = URLDecoder.decode(questionForm.getContent(), StandardCharsets.UTF_8);
+		this.questionService.create(questionForm.getSubject(), con, siteUser);
+
 		return "redirect:/question/list";
 	}
 
@@ -110,7 +117,13 @@ public class QuestionController {
 		if (!question.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
 		}
-		this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+		// this.questionService.modify(question, questionForm.getSubject(),
+		// questionForm.getContent());
+
+		// 에디터 적용 수정
+		String con = URLDecoder.decode(questionForm.getContent(), StandardCharsets.UTF_8);
+		this.questionService.modify(question, questionForm.getSubject(), con);
+
 		return String.format("redirect:/question/detail/%s", id);
 
 	}
