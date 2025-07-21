@@ -18,32 +18,40 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// devtools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    // lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-	// H2
-	runtimeOnly 'com.h2database:h2'
-    // JPA
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//junit
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3' 
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // thymeleaf
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-	//validation
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	// secutity - 인증과 권환관련해서
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	// markdown
-	implementation 'org.commonmark:commonmark:0.21.0'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+  // lombok
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
+
+  // H2 (사용 안 하면 제거 가능)
+  // runtimeOnly 'com.h2database:h2'
+
+  // ✅ MariaDB
+  // runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+  //MYSQL
+  runtimeOnly 'com.mysql:mysql-connector-j'
+
+
+  // JPA
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+  // Thymeleaf
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+  // Validation
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+  // Security
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+  // Markdown
+  implementation 'org.commonmark:commonmark:0.21.0'
 }
 
 tasks.named('test') {
